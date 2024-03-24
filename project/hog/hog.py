@@ -27,13 +27,13 @@ def roll_dice(num_rolls, dice=six_sided):
     flag_one = False
     while i < num_rolls:
         point = dice()
-        print("DEBUG: point is", point)
+        # print("DEBUG: point is", point)
         if point != 1:
             score += point
-            print("DEBUG: score is", score)
+            # print("DEBUG: score is", score)
         else:
             flag_one = True
-            print("DEBUG: score is", score)
+            # print("DEBUG: score is", score)
         i += 1
     if flag_one == True:
         score = 1
@@ -124,14 +124,14 @@ def sus_points(score):
     "*** YOUR CODE HERE ***"
     if num_factors(score) == 3 or num_factors(score) == 4:
         i = score
-        print("DEBUG: i is", i)
+        # print("DEBUG: i is", i)
         if i == 1:
             final_score = 1
         else:
             while not is_prime(i):
                 i += 1
         final_score = i
-        print("DEBUG: final_score is", final_score)
+        # print("DEBUG: final_score is", final_score)
     else:
         final_score = score
     return final_score
@@ -185,11 +185,14 @@ def play(strategy0, strategy1, update, score0=0, score1=0, dice=six_sided, goal=
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    # END PROBLEM 5
-    while score0<GOAL and score1<GOAL:
-        who = 1-who
-        
+    while score0 < goal and score1 < goal:
+        if who == 0:
+            score0 = update(strategy0(score0, score1), score0, score1, dice)
+        else:
+            score1 = update(strategy1(score1, score0), score1, score0, dice)
+        who = 1 - who
     return score0, score1
+    # END PROBLEM 5
 
 
 #######################
@@ -213,6 +216,11 @@ def always_roll(n):
     assert n >= 0 and n <= 10
     # BEGIN PROBLEM 6
     "*** YOUR CODE HERE ***"
+
+    def strategy_inner(score0, score1):
+        return n
+
+    return strategy_inner
     # END PROBLEM 6
 
 
@@ -244,6 +252,18 @@ def is_always_roll(strategy, goal=GOAL):
     """
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    if strategy == always_roll_5:
+        print("DEBUG: type of is(ar5)", strategy)
+        flag = True
+    elif strategy == always_roll(3):
+        print("DEBUG: type of is(ar)", strategy)
+        flag = True
+    elif strategy == catch_up:
+        print("DEBUG: type of is(catchup)", strategy)
+        flag = False
+    else:
+        flag = False
+    return flag
     # END PROBLEM 7
 
 
