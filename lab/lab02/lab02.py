@@ -15,10 +15,7 @@ def composite_identity(f, g):
     "*** YOUR CODE HERE ***"
 
     def judge(x):
-        if f(g(x)) == g(f(x)):
-            return True
-        else:
-            return False
+        return f(g(x)) == g(f(x))
 
     return judge
 
@@ -129,18 +126,16 @@ def cycle(f1, f2, f3):
     def g(n):
         def h(x):
             i = 0
-            final = x
-            i += 1
-            while i <= n:
-                if i % 3 == 1:
-                    final = f1(final)
-                elif i % 3 == 2:
-                    final = f2(final)
+            while i < n:
+                if i % 3 == 0:
+                    x = f1(x)
+                elif i % 3 == 1:
+                    x = f2(x)
                 # elif i % 3 == 0:
                 else:
-                    final = f3(final)
-                i+=1
-            return final
+                    x = f3(x)
+                i += 1
+            return x
 
         return h
 

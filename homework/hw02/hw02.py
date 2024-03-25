@@ -33,16 +33,13 @@ def product(n, term):
     """
     "*** YOUR CODE HERE ***"
 
-    def ans():
-        i = 1
-        answer = 1
-        while i <= n:
-            answer = answer * term(i)
-            i += 1
-        print("DEBUG: answer is", answer)
-        return answer
-
-    return ans()
+    i = 1
+    answer = 1
+    while i <= n:
+        answer = answer * term(i)
+        i += 1
+    # print("DEBUG: answer is", answer)
+    return answer
 
 
 def accumulate(fuse, start, n, term):
@@ -65,16 +62,12 @@ def accumulate(fuse, start, n, term):
     19
     """
     "*** YOUR CODE HERE ***"
-
-    def g():
-        i = 1
-        ans = start
-        while i <= n:
-            ans = fuse(ans, term(i))
-            i += 1
-        return ans
-
-    return g()
+    i = 1
+    ans = start
+    while i <= n:
+        ans = fuse(ans, term(i))
+        i += 1
+    return ans
 
 
 def summation_using_accumulate(n, term):
