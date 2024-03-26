@@ -16,3 +16,12 @@ def make_keeper(n):
     >>> make_keeper(5)(lambda x: False)  # Nothing is printed
     """
     "*** YOUR CODE HERE ***"
+
+    def f(cond):
+        i = 0
+        while i < n:
+            i += 1
+            if cond(i):
+                print(i)
+
+    return f
