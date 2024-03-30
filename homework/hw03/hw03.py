@@ -1,7 +1,7 @@
-LAB_SOURCE_FILE=__file__
+LAB_SOURCE_FILE = __file__
 
 
-HW_SOURCE_FILE=__file__
+HW_SOURCE_FILE = __file__
 
 
 def num_eights(n):
@@ -28,6 +28,14 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n == 8:
+        return 1
+    elif n == 0:
+        return 0
+    elif n % 10 == 8:
+        return num_eights(n // 10) + 1
+    else:
+        return num_eights(n // 10)
 
 
 def digit_distance(n):
@@ -50,6 +58,11 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    else:
+        last, second_right = n % 10, (n // 10) % 10
+        return digit_distance(n // 10) + abs(last - second_right)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -73,6 +86,15 @@ def interleaved_sum(n, odd_func, even_func):
     """
     "*** YOUR CODE HERE ***"
 
+    def inner(k):  # Already know that k is an odd!
+        if k == n:
+            return odd_func(n)
+        elif k > n:
+            return 0
+        return inner(k + 2) + odd_func(k) + even_func(k + 1)
+
+    return inner(1)
+
 
 def next_larger_coin(coin):
     """Returns the next larger coin in order.
@@ -91,6 +113,7 @@ def next_larger_coin(coin):
     elif coin == 10:
         return 25
 
+
 def next_smaller_coin(coin):
     """Returns the next smaller coin in order.
     >>> next_smaller_coin(25)
@@ -107,6 +130,7 @@ def next_smaller_coin(coin):
         return 5
     elif coin == 5:
         return 1
+
 
 def count_coins(total):
     """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
@@ -127,10 +151,46 @@ def count_coins(total):
     """
     "*** YOUR CODE HERE ***"
 
+    def method(sum, face_value):
+        if face_value == 1:
+            return 1
+
+        elif face_value > sum:
+            return method(sum, next_smaller_coin(face_value))
+
+        if sum == 0:
+            return 1
+        elif sum < 0:
+            return 0
+
+        return method(sum - face_value, face_value) + method(
+            sum, next_smaller_coin(face_value)
+        )
+        """
+        (15,25)
+        (15,10) -> (5,10) + (15,5)  //10 5
+        //10 11111
+        I.
+        (5, 10) -> (5,5) -> 2
+        (5,5) -> 1+ (5,1)
+        (5,1) -> None -> 1
+
+        II.
+        (15,5) -> (10,5) + (15,1) //
+        (15,1) -> 1
+        (10,5) -> (5,5) + (10,1)
+        (10,1) -> 1
+        (5,5) ->1 + (5,1)
+        (5,1) -> 1
+        """
+
+    return method(total, 25)
+
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
     print("Move the top disk from rod", origin, "to rod", destination)
+
 
 def move_stack(n, start, end):
     """Print the moves required to move n disks on the start pole to the end
@@ -165,6 +225,7 @@ def move_stack(n, start, end):
 
 from operator import sub, mul
 
+
 def make_anonymous_factorial():
     """Return the value of an expression that computes factorial.
 
@@ -176,5 +237,4 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
-
+    return "YOUR_EXPRESSION_HERE"
