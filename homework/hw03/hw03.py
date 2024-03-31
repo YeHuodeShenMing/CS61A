@@ -221,6 +221,18 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    """第1步:将start柱上的前n-1个盘转移到mid柱,把n大的盘转移到end
+     第2步:将mid柱上的(n-1)-1个转移到end柱,再把n-1大的盘转移到end,这步是  辅助操作  不能打印
+    """
+    mid = 6 - start - end
+    if n == 1:
+        print_move(start, end)
+        return
+    else:
+        move_stack(n - 1, start, mid)
+        print_move(start, end)
+        move_stack(n - 1, mid, end)
+        # print_move(mid, end)
 
 
 from operator import sub, mul
@@ -237,4 +249,6 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return "YOUR_EXPRESSION_HERE"
+    return lambda n: 1 if n==1 else mul(mul(n,sub(n,1)),sub(n,2))
+
+fact = lambda n: 1 if n == 1 else mul(n, fact(sub(n, 1)))
