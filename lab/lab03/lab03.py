@@ -1,4 +1,4 @@
-LAB_SOURCE_FILE=__file__
+LAB_SOURCE_FILE = __file__
 
 
 def print_if(s, f):
@@ -15,6 +15,8 @@ def print_if(s, f):
     """
     for x in s:
         "*** YOUR CODE HERE ***"
+        if f(x):
+            print(x)
 
 
 def close(s, k):
@@ -33,6 +35,8 @@ def close(s, k):
     count = 0
     for i in range(len(s)):  # Use a range to loop over indices
         "*** YOUR CODE HERE ***"
+        if abs(i - s[i]) <= k:
+            count += 1
     return count
 
 
@@ -52,6 +56,7 @@ def close_list(s, k):
 
 from math import sqrt
 
+
 def squares(s):
     """Returns a new list containing square roots of the elements of the
     original list that are perfect squares.
@@ -67,7 +72,7 @@ def squares(s):
 
 
 def double_eights(n):
-    """ Returns whether or not n has two digits in row that
+    """Returns whether or not n has two digits in row that
     are the number 8. Assume n has at least two digits in it.
 
     >>> double_eights(1288)
@@ -114,6 +119,7 @@ def make_onion(f, g):
     >>> can_reach_string("peach", "folding", 4)   # Not possible
     False
     """
+
     def can_reach(x, y, limit):
         if limit < 0:
             return ____
@@ -121,5 +127,5 @@ def make_onion(f, g):
             return ____
         else:
             return can_reach(____, ____, limit - 1) or can_reach(____, ____, limit - 1)
-    return can_reach
 
+    return can_reach
