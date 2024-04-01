@@ -68,7 +68,7 @@ def squares(s):
     >>> squares(seq)
     []
     """
-    return [int(sqrt(n)) for n in s if sqrt(n) == round(sqrt(n))]
+    return [round(sqrt(n)) for n in s if sqrt(n) == round(sqrt(n))]
 
 
 def double_eights(n):
