@@ -7,17 +7,14 @@ def max_product(s):
     125
     >>> max_product([])                 # The product of no numbers is 1
     1
+    >>> max_product([10, 3, 1, 9, 2, 7, 8])
+    720
     """
-    if len(s) < 2:
+    if len(s) == 0:
         return 1
+    elif len(s) == 1:
+        return s[0]
+    elif len == 2:
+        return max(s[0], s[1])
     else:
-        return max_product(s[2:]) * s[0]
-    # def product(i):
-    #     if i == len(s) or i == len(s) + 1 :
-    #         return 1
-    #     else:
-    #         return product(i + 2) * s[i]
-
-    # # max([product(i) for i in range(len(s))])
-
-    # return max([1] + [product(i) for i in range(len(s))])
+        return max(max_product(s[:-1]), max_product(s[:-2]) * s[len(s) - 1])
