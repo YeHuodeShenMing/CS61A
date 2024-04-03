@@ -10,11 +10,15 @@ def max_product(s):
     >>> max_product([10, 3, 1, 9, 2, 7, 8])
     720
     """
-    if len(s) == 0:
+    if len(s)==0:
         return 1
-    elif len(s) == 1:
-        return s[0]
-    elif len == 2:
-        return max(s[0], s[1])
-    else:
-        return max(max_product(s[:-1]), max_product(s[:-2]) * s[len(s) - 1])
+    return max(max_product(s[2:])*s[0],max_product(s[1:]))
+max_product([10, 3, 1, 9, 2])
+    # if len(s) == 0:
+    #     return 1
+    # elif len(s) == 1:
+    #     return s[0]
+    # elif len == 2:
+    #     return max(s[0], s[1])
+    # else:
+    #     return max(max_product(s[:-1]), max_product(s[:-2]) * s[len(s) - 1])

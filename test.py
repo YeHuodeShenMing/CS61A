@@ -1,20 +1,28 @@
-def num(x):
-    ans = 0
-    dic = {0: 6, 1: 2, 2: 5, 3: 5, 4: 4, 5: 5, 6: 6, 7: 3, 8: 7, 9: 6}
-    if x == 0:
-        return dic[0]
-    while x:
-        ans += dic[x % 10]
-        x //= 10
-    return ans
+# def factorial(n, i):  # n 为代求数字 ， i为变化量
+#     if n == 1:
+#         return 1
+#     if i == 1:
+#         return 0
+#     ans = factorial(n, i - 1)
+#     if n % i == 0:
+#         ans += factorial(n // i, i)
+#     return ans
 
 
-# while True:
-n = int(input())
-count = 0
-for i in range(1000 + 1):
-    for j in range(0, 1000 + 1):
-        k = i + j
-        if num(i) + num(j) + num(k) == n - 4:
-            count += 1
-print(count)
+# a = int(input())
+# print(factorial(a, a))
+
+m = int(input())
+
+
+def partation(m, n):  # m apples, n plates, k is the biggest count for one plate.
+    if m == 0:
+        return 1
+    if n == 1:
+        return 1
+    partation(m, n - 1)
+    if m % n:
+        return partation(m // n, n)
+
+
+print(partation(m, m))
