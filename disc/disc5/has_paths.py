@@ -1,3 +1,6 @@
+from tree import *
+
+
 def has_path(t, p):
     """Return whether tree t has a path from the root with labels p.
 
@@ -14,9 +17,21 @@ def has_path(t, p):
     >>> has_path(t1, [3, 4, 5, 6])  # There is no path with these labels
     False
     """
-    if p == ____:  # when len(p) is 1
+    if p == [label(t)]:  # when len(p) is 1
         return True
-    elif label(t) != ____:
+    elif label(t) != p[0]:
         return False
     else:
         "*** YOUR CODE HERE ***"
+        """
+        Method 1
+        """
+        return any(has_path(b, p[1:]) for b in branchs(t))
+
+        """
+        Method 2
+        """
+        # for b in branchs(t):
+        #     if has_path(b, p[1:]):
+        #         return True
+        # return False
