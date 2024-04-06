@@ -188,14 +188,20 @@ def feline_fixes(typed, source, limit):
     >>> feline_fixes("rose", "hello", big_limit)   # Substitute: r->h, o->e, s->l, e->l, length difference of 1.
     5
     """
+
     # BEGIN PROBLEM 6
     # assert False, "Remove this line"
-    if typed == "" or source == "":
-        return abs(len(source) - len(typed))
-    if typed[0] != source[0]:
-        return feline_fixes(typed[1:], source[1:], limit) + 1
-    else:
-        return feline_fixes(typed[1:], source[1:], limit)
+    def helper(typed, source, diff):
+        if diff > limit:
+            return limit + 1
+        if not typed or not source:
+            return diff + abs(len(source) - len(typed))
+        if typed[0] != source[0]:
+            return helper(typed[1:], source[1:], diff + 1)
+        else:
+            return helper(typed[1:], source[1:], diff)
+
+    return helper(typed, source, 0)
     # END PROBLEM 6
 
 
