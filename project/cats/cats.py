@@ -235,8 +235,7 @@ def minimum_mewtations(typed, source, limit):
             return limit + 1
             # END
         if not typed or not source:
-            return diff
-        # c
+            return diff + abs(len(source) - len(typed))
         # Recursive cases should go below here
         if typed[0] == source[0]:  # Feel free to remove or add additional cases
             # BEGIN
@@ -245,16 +244,17 @@ def minimum_mewtations(typed, source, limit):
             # END
         else:
             # Fill in these lines
-            add = source[0] + typed
+            add = helper((source[0] + typed)[1:], source[1:], diff + 1)
             remove = typed[1:]
             substitute = source[0] + typed[1:]
             # BEGIN
             "*** YOUR CODE HERE ***"
-            return (
-                helper(add[1:], source[1:], diff + 1)
-                or helper(remove[1:], source[1:], diff + 1)
-                or helper(substitute[1:], source[1:], diff + 1)
-            )
+            if not typed and source:
+                return
+            elif typed and not source:
+                return helper(remove[1:], source[1:], diff + 1)
+            else:
+                return helper(substitute[1:], source[1:], diff + 1)
 
             # END
 
