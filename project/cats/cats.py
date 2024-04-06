@@ -227,38 +227,30 @@ def minimum_mewtations(typed, source, limit):
     """
 
     # assert False, "Remove this line"
-    def helper(typed, source, diff):
-        # Base cases should go here, you may add more base cases as needed.
-        if diff > limit:
-            # BEGIN
-            "*** YOUR CODE HERE ***"
-            return limit + 1
-            # END
-        if not typed or not source:
-            return diff + abs(len(source) - len(typed))
-        # Recursive cases should go below here
-        if typed[0] == source[0]:  # Feel free to remove or add additional cases
-            # BEGIN
-            "*** YOUR CODE HERE ***"
-            return helper(typed[1:], source[1:], diff)
-            # END
-        else:
-            # Fill in these lines
-            add = helper((source[0] + typed)[1:], source[1:], diff + 1)
-            remove = typed[1:]
-            substitute = source[0] + typed[1:]
-            # BEGIN
-            "*** YOUR CODE HERE ***"
-            if not typed and source:
-                return
-            elif typed and not source:
-                return helper(remove[1:], source[1:], diff + 1)
-            else:
-                return helper(substitute[1:], source[1:], diff + 1)
 
-            # END
-
-    return helper(typed, source, 0)
+    # Base cases should go here, you may add more base cases as needed.
+    if limit < 0:
+        # BEGIN
+        "*** YOUR CODE HERE ***"
+        return 0
+        # END
+    if not typed or not source:
+        return abs(len(source) - len(typed))
+    # Recursive cases should go below here
+    if typed[0] == source[0]:  # Feel free to remove or add additional cases
+        # BEGIN
+        "*** YOUR CODE HERE ***"
+        return minimum_mewtations(typed[1:], source[1:], limit)
+        # END
+    else:
+        # Fill in these lines
+        add = minimum_mewtations(typed, source[1:], limit - 1)
+        remove = minimum_mewtations(typed[1:], source, limit - 1)
+        substitute = minimum_mewtations(typed[1:], source[1:], limit - 1)
+        # BEGIN
+        "*** YOUR CODE HERE ***"
+        return 1 + min(add, remove, substitute)
+        # END
 
 
 def final_diff(typed, source, limit):
