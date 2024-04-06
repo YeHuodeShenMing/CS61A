@@ -202,7 +202,6 @@ def feline_fixes(typed, source, limit):
             return helper(typed[1:], source[1:], diff)
 
     return helper(typed, source, 0)
-    # 333
     # END PROBLEM 6
 
 
@@ -226,23 +225,39 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, "Remove this line"
-    if ___________:  # Base cases should go here, you may add more base cases as needed.
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-    # Recursive cases should go below here
-    if ___________:  # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-    else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+
+    # assert False, "Remove this line"
+    def helper(typed, source, diff):
+        # Base cases should go here, you may add more base cases as needed.
+        if diff > limit:
+            # BEGIN
+            "*** YOUR CODE HERE ***"
+            return limit + 1
+            # END
+        if not typed or not source:
+            return diff
+        # Recursive cases should go below here
+        if typed[0] == source[0]:  # Feel free to remove or add additional cases
+            # BEGIN
+            "*** YOUR CODE HERE ***"
+            return helper(typed[1:], source[1:], diff)
+            # END
+        else:
+            # Fill in these lines
+            add = source[0] + typed
+            remove = typed[1:]
+            substitute = source[0] + typed[1:]
+            # BEGIN
+            "*** YOUR CODE HERE ***"
+            return (
+                helper(add[1:], source[1:], diff + 1)
+                or helper(remove[1:], source[1:], diff + 1)
+                or helper(substitute[1:], source[1:], diff + 1)
+            )
+
+            # END
+
+    return helper(typed, source, 0)
 
 
 def final_diff(typed, source, limit):
