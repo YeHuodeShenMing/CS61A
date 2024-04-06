@@ -143,6 +143,16 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return True
+    elif (
+        total_mass(end(left(m))) * length(left(m))
+        == total_mass(end(right(m))) * length(right(m))
+        and balanced(end(left(m)))
+        and balanced(end(right(m)))
+    ):
+        return True
+    return False
 
 
 HW_SOURCE_FILE = __file__
