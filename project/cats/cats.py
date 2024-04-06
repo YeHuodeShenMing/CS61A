@@ -256,7 +256,31 @@ def minimum_mewtations(typed, source, limit):
 def final_diff(typed, source, limit):
     """A diff function that takes in a string TYPED, a string SOURCE, and a number LIMIT.
     If you implement this function, it will be used."""
-    assert False, "Remove this line to use your final_diff function."
+    # assert False, "Remove this line to use your final_diff function."
+    "test score"
+    # Base cases should go here, you may add more base cases as needed.
+    if limit < 0:
+        # BEGIN
+        "*** YOUR CODE HERE ***"
+        return 0
+        # END
+    if not typed or not source:
+        return abs(len(source) - len(typed))
+    # Recursive cases should go below here
+    if typed[0] == source[0]:  # Feel free to remove or add additional cases
+        # BEGIN
+        "*** YOUR CODE HERE ***"
+        return minimum_mewtations(typed[1:], source[1:], limit)
+        # END
+    else:
+        # Fill in these lines
+        add = minimum_mewtations(typed, source[1:], limit - 1)
+        remove = minimum_mewtations(typed[1:], source, limit - 1)
+        substitute = minimum_mewtations(typed[1:], source[1:], limit - 1)
+        # BEGIN
+        "*** YOUR CODE HERE ***"
+        return 1 + min(add, remove, substitute)
+        # END
 
 
 FINAL_DIFF_LIMIT = 6  # REPLACE THIS WITH YOUR LIMIT
@@ -292,6 +316,16 @@ def report_progress(typed, source, user_id, upload):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    count = 0
+    for i in range(len(typed)):
+        if typed[i] == source[i]:
+            count += 1
+        else:
+            break
+    ratio = count / len(source)
+    d = {"id": user_id, "progress": ratio}
+    upload(d)
+    return d["progress"]
     # END PROBLEM 8
 
 
@@ -314,6 +348,14 @@ def time_per_word(words, timestamps_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    time_list = [[] for _ in range(len(timestamps_per_player))]
+    for i in range(len(timestamps_per_player)):
+        for j in range(len(timestamps_per_player[i]) - 1):
+            time_list[i].append(
+                timestamps_per_player[i][j + 1] - timestamps_per_player[i][j]
+            )
+        # print("DEBUG:", time_list)
+    return match(words, time_list)
     # END PROBLEM 9
 
 
