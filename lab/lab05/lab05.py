@@ -172,16 +172,20 @@ def partial_reverse(s, start):
     [1, 2, 7, 6, 5, 3, 4]
     """
     "*** YOUR CODE HERE ***"
+    "Method 1"
     end = s[len(s) - 1]
     for i in range(len(s) - start - 1):
         if s[start] == end:
             break
         for j in range(start, len(s) - i - 1):
             s[j], s[j + 1] = s[j + 1], s[j]
+    "Method 2"
+    # end = len(s) - 1
+    # while start < end:
+    #     s[start], s[end] = s[end], s[start]
+    #     start += 1
+    #     end -= 1
 
-
-a = [1, 2, 3, 4, 5, 6, 7]
-partial_reverse(a, 2)
 
 # Tree Data Abstraction
 
