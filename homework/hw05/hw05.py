@@ -34,6 +34,19 @@ def merge(a, b):
     [2, 3, 5, 7, 8, 9, 11, 13, 14, 15]
     """
     "*** YOUR CODE HERE ***"
+    curr_a = next(a)
+    curr_b = next(b)
+    while True:
+        if curr_a < curr_b:
+            yield curr_a
+            curr_a = next(a)
+        elif curr_a==curr_b:
+            yield curr_a
+            curr_a = next(a)
+            curr_b = next(b)
+        else:
+            yield curr_b
+            curr_b = next(b)
 
 
 def yield_paths(t, value):
