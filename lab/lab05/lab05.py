@@ -82,7 +82,7 @@ def count_occurrences(t, n, x):
     count = 0
     for i in range(n):
         if next(t) == x:
-            count+=1
+            count += 1
     return count
 
 
@@ -107,6 +107,16 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    count = 1
+    prev = None
+    for num in t:
+        if num == prev:
+            count += 1
+            if count == k:
+                return num
+        else:
+            prev = num
+            count = 1
 
 
 def sprout_leaves(t, leaves):
