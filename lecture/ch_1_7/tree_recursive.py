@@ -7,4 +7,5 @@ def fib(n):
         return fib(n - 1) + fib(n - 2)
 
 
-result = fib(6)
+# result = fib(6)
+print(fib(19))
