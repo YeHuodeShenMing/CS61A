@@ -11,14 +11,13 @@ def hailstone(n):
     "*** YOUR CODE HERE ***"
     yield n
     if n == 1:
-        yield 1
+        while True:
+            yield 1
     elif n % 2 == 1:
         n = 3 * n + 1
-        yield n
         yield from hailstone(n)
     elif n % 2 == 0:
         n = n // 2
-        yield n
         yield from hailstone(n)
 
 
