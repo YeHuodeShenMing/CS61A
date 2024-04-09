@@ -9,6 +9,17 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    yield n
+    if n == 1:
+        yield 1
+    elif n % 2 == 1:
+        n = 3 * n + 1
+        yield n
+        yield from hailstone(n)
+    elif n % 2 == 0:
+        n = n // 2
+        yield n
+        yield from hailstone(n)
 
 
 def merge(a, b):
@@ -67,22 +78,25 @@ def yield_paths(t, value):
             yield ____
 
 
-
 # Tree Data Abstraction
+
 
 def tree(label, branches=[]):
     """Construct a tree with the given label value and a list of branches."""
     for branch in branches:
-        assert is_tree(branch), 'branches must be trees'
+        assert is_tree(branch), "branches must be trees"
     return [label] + list(branches)
+
 
 def label(tree):
     """Return the label value of a tree."""
     return tree[0]
 
+
 def branches(tree):
     """Return the list of branches of the given tree."""
     return tree[1:]
+
 
 def is_tree(tree):
     """Returns True if the given tree is a tree, and False otherwise."""
@@ -93,11 +107,13 @@ def is_tree(tree):
             return False
     return True
 
+
 def is_leaf(tree):
     """Returns True if the given tree's list of branches is empty, and False
     otherwise.
     """
     return not branches(tree)
+
 
 def print_tree(t, indent=0):
     """Print a representation of this tree in which each node is
@@ -118,9 +134,10 @@ def print_tree(t, indent=0):
       6
         7
     """
-    print('  ' * indent + str(label(t)))
+    print("  " * indent + str(label(t)))
     for b in branches(t):
         print_tree(b, indent + 1)
+
 
 def copy_tree(t):
     """Returns a copy of t. Only for testing purposes.
@@ -132,4 +149,3 @@ def copy_tree(t):
     5
     """
     return tree(label(t), [copy_tree(b) for b in branches(t)])
-
