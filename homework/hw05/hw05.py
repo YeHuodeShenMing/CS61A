@@ -88,10 +88,10 @@ def yield_paths(t, value):
     for b in branches(t):
         for x in yield_paths(b, value):
             yield [label(t)] + x
-  """_summary_
-  If our current label is equal to value, we've found a path from the root to a node containing value containing only our current label, so we should yield that. From there, we'll see if there are any paths starting from one of our branches that ends at a node containing value. If we find these "partial paths" we can simply add our current label to the beinning of a path to obtain a path starting from the root.
-  In order to do this, we'll create a generator for each of the branches which yields these "partial paths". By calling yield_paths on each of the branches, we'll create exactly this generator! Then, since a generator is also an iterable, we can iterate over the paths in this generator and yield the result of concatenating it with our current label.
-  """
+
+
+# If our current label is equal to value, we've found a path from the root to a node containing value containing only our current label, so we should yield that. From there, we'll see if there are any paths starting from one of our branches that ends at a node containing value. If we find these "partial paths" we can simply add our current label to the beinning of a path to obtain a path starting from the root.
+# In order to do this, we'll create a generator for each of the branches which yields these "partial paths". By calling yield_paths on each of the branches, we'll create exactly this generator! Then, since a generator is also an iterable, we can iterate over the paths in this generator and yield the result of concatenating it with our current label.
 
 
 # Tree Data Abstraction
