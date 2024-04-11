@@ -7,6 +7,9 @@ class Transaction:
     def changed(self):
         """Return whether the transaction resulted in a changed balance."""
         "*** YOUR CODE HERE ***"
+        if self.before != self.after:
+            return True
+        return False
 
     def report(self):
         """Return a string describing the transaction.
@@ -18,10 +21,15 @@ class Transaction:
         >>> Transaction(5, 50, 50).report()
         '5: no change'
         """
-        msg = 'no change'
+        msg = "no change"
         if self.changed():
             "*** YOUR CODE HERE ***"
-        return str(self.id) + ': ' + msg
+            if self.before > self.after:
+                msg = f"decreased {self.before}->{self.after}"
+            else:
+                msg = f"increased {self.before}->{self.after}"
+        return str(self.id) + ": " + msg
+
 
 class Account:
     """A bank account that tracks its transaction history.
@@ -61,17 +69,18 @@ class Account:
     2: no change
     3: decreased 40->10
     """
-
     # *** YOU NEED TO MAKE CHANGES IN SEVERAL PLACES IN THIS CLASS ***
-
+    i = 0
     def __init__(self, account_holder):
         self.balance = 0
         self.holder = account_holder
+        self.transactions = []
 
     def deposit(self, amount):
         """Increase the account balance by amount, add the deposit
         to the transaction history, and return the new balance.
         """
+        self.transactions.append()
         self.balance = self.balance + amount
         return self.balance
 
@@ -80,29 +89,34 @@ class Account:
         to the transaction history, and return the new balance.
         """
         if amount > self.balance:
-            return 'Insufficient funds'
+            return "Insufficient funds"
         self.balance = self.balance - amount
+        self.transactions.append(self)
         return self.balance
-
-
-
+a = Account("ala")
+a.deposit(100)
+a.withdraw(20)
+print(len(a.transactions))
 
 class Email:
     """An email has the following instance attributes:
 
-        msg (str): the contents of the message
-        sender (Client): the client that sent the email
-        recipient_name (str): the name of the recipient (another client)
+    msg (str): the contents of the message
+    sender (Client): the client that sent the email
+    recipient_name (str): the name of the recipient (another client)
     """
+
     def __init__(self, msg, sender, recipient_name):
         self.msg = msg
         self.sender = sender
         self.recipient_name = recipient_name
 
+
 class Server:
     """Each Server has one instance attribute called clients that is a
     dictionary from client names to client objects.
     """
+
     def __init__(self):
         self.clients = {}
 
@@ -113,6 +127,7 @@ class Server:
     def register_client(self, client):
         """Add a client to the dictionary of clients."""
         ____[____] = ____
+
 
 class Client:
     """A client has a server, a name (str), and an inbox (list).
@@ -131,6 +146,7 @@ class Client:
     >>> b.inbox[1].sender.name
     'Alice'
     """
+
     def __init__(self, server, name):
         self.inbox = []
         self.server = server
@@ -178,6 +194,7 @@ def make_change(amount, coins):
         return None
     "*** YOUR CODE HERE ***"
 
+
 def remove_one(coins, coin):
     """Remove one coin from a dictionary of coins. Return a new dictionary,
     leaving the original dictionary coins unchanged.
@@ -193,8 +210,9 @@ def remove_one(coins, coin):
     copy = dict(coins)
     count = copy.pop(coin) - 1  # The coin denomination is removed
     if count:
-        copy[coin] = count      # The coin denomination is added back
+        copy[coin] = count  # The coin denomination is added back
     return copy
+
 
 class ChangeMachine:
     """A change machine holds a certain number of coins, initially all pennies.
@@ -266,10 +284,10 @@ class ChangeMachine:
     >>> m.coins == {2: 1, 7: 1}
     True
     """
+
     def __init__(self, pennies):
         self.coins = {1: pennies}
 
     def change(self, coin):
         """Return change for coin, removing the result from self.coins."""
         "*** YOUR CODE HERE ***"
-
