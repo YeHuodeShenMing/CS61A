@@ -7,9 +7,8 @@ class Transaction:
     def changed(self):
         """Return whether the transaction resulted in a changed balance."""
         "*** YOUR CODE HERE ***"
-        if self.before != self.after:
-            return True
-        return False
+        return self.before != self.after
+
 
     def report(self):
         """Return a string describing the transaction.
@@ -69,18 +68,22 @@ class Account:
     2: no change
     3: decreased 40->10
     """
+
     # *** YOU NEED TO MAKE CHANGES IN SEVERAL PLACES IN THIS CLASS ***
-    i = 0
     def __init__(self, account_holder):
         self.balance = 0
         self.holder = account_holder
         self.transactions = []
+        self.i = -1
 
     def deposit(self, amount):
         """Increase the account balance by amount, add the deposit
         to the transaction history, and return the new balance.
         """
-        self.transactions.append()
+        self.i += 1
+        self.transactions.append(
+            Transaction(self.i, self.balance, self.balance + amount)
+        )
         self.balance = self.balance + amount
         return self.balance
 
@@ -88,15 +91,16 @@ class Account:
         """Decrease the account balance by amount, add the withdraw
         to the transaction history, and return the new balance.
         """
+        self.i += 1
         if amount > self.balance:
+            self.transactions.append(Transaction(self.i, self.balance, self.balance))
             return "Insufficient funds"
+        self.transactions.append(
+            Transaction(self.i, self.balance, self.balance - amount)
+        )
         self.balance = self.balance - amount
-        self.transactions.append(self)
         return self.balance
-a = Account("ala")
-a.deposit(100)
-a.withdraw(20)
-print(len(a.transactions))
+
 
 class Email:
     """An email has the following instance attributes:
