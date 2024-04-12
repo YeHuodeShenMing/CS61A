@@ -303,9 +303,14 @@ class ChangeMachine:
         """Return change for coin, removing the result from self.coins."""
         "*** YOUR CODE HERE ***"
         result = make_change(coin, self.coins)
-        if not result:
-            return coin
-        else:
+        print("DEBUG:", (result))
+        if result:
             self.coins[coin] = 1 + self.coins.get(coin, 0)
-            remove_one(coin, self.coins)
+            for c in result:
+                remove_one(self.coins, c)
             return result
+        else:
+            return coin
+m = ChangeMachine(10)
+m.coins
+m.change(5)
