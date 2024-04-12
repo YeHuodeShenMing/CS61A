@@ -205,6 +205,7 @@ def make_change(amount, coins):
         else:
             return [smallest] + result
 
+
 def remove_one(coins, coin):
     """Remove one coin from a dictionary of coins. Return a new dictionary,
     leaving the original dictionary coins unchanged.
@@ -222,8 +223,6 @@ def remove_one(coins, coin):
     if count:
         copy[coin] = count  # The coin denomination is added back
     return copy
-coins = {2: 2, 3: 2, 4: 3, 5: 1}
-make_change(4, coins)
 
 
 class ChangeMachine:
@@ -303,3 +302,10 @@ class ChangeMachine:
     def change(self, coin):
         """Return change for coin, removing the result from self.coins."""
         "*** YOUR CODE HERE ***"
+        result = make_change(coin, self.coins)
+        if not result:
+            return coin
+        else:
+            self.coins[coin] = 1 + self.coins.get(coin, 0)
+            remove_one(coin, self.coins)
+            return result
