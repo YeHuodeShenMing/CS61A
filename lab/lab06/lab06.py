@@ -192,15 +192,18 @@ def make_change(amount, coins):
     if not coins:
         return None
     smallest = min(coins)
-    coin_list.append(smallest)
     rest = remove_one(coins, smallest)
     if amount < smallest:
         return None
-    "*** YOUR CODE HERE ***"
-    if amount == 0:
-        return coin_list
-    make_change(amount - smallest, rest)
-
+    # "*** YOUR CODE HERE ***"
+    elif amount == smallest:
+        return [smallest]
+    else:
+        result = make_change(amount - smallest, rest)
+        if not result:
+            return make_change(amount, rest)
+        else:
+            return [smallest] + result
 
 def remove_one(coins, coin):
     """Remove one coin from a dictionary of coins. Return a new dictionary,
@@ -219,6 +222,8 @@ def remove_one(coins, coin):
     if count:
         copy[coin] = count  # The coin denomination is added back
     return copy
+coins = {2: 2, 3: 2, 4: 3, 5: 1}
+make_change(4, coins)
 
 
 class ChangeMachine:
