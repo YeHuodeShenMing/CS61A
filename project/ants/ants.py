@@ -185,6 +185,7 @@ class ThrowerAnt(Ant):
                 new_place = self.place.entrance
             else:
                 return bee_list
+        return None
         # END Problem 3 and 4
 
     def throw_at(self, target):
@@ -204,7 +205,6 @@ def random_bee(bees):
     )
     if bees:
         return random.choice(bees)
-
 
 ##############
 # Extensions #
@@ -752,3 +752,23 @@ class AssaultPlan(dict):
     def all_bees(self):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
+
+
+###############################
+from ants import *
+beehive, layout = Hive(AssaultPlan()), dry_layout
+dimensions = (1, 9)
+gamestate = GameState(beehive, ant_types(), layout, dimensions)
+thrower = ThrowerAnt()
+ant_place = gamestate.places["tunnel_0_0"]
+ant_place.add_insect(thrower)
+#
+# Testing nearest_bee
+near_bee = Bee(2) # A Bee with 2 health
+far_bee = Bee(3)  # A Bee with 3 health
+hive_bee = Bee(4) # A Bee with 4 health
+hive_place = gamestate.beehive
+hive_place.is_hive # Check if this place is the Hive
+hive_place.add_insect(hive_bee)
+thrower.nearest_bee() is hive_bee # Bees in the Hive can never be attacked
+###############################
