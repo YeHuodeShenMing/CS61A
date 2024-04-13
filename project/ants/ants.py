@@ -178,12 +178,15 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4
         # return random_bee(self.place.bees)  # REPLACE THIS LINE
-        new_place = self.place.entrance
-        while not new_place.is_hive:
-            bee_list = random_bee(self.place.bees)
+        # self.place = self.place.entrance
+        curr_place = self.place
+        while not curr_place.is_hive:
+            bee_list = random_bee(curr_place.bees)
             if not bee_list:
-                new_place = self.place.entrance
+                # print("DEBUG:", curr_place.name)
+                curr_place = curr_place.entrance
             else:
+                # print("DEBUG:", bee_list)
                 return bee_list
         return None
         # END Problem 3 and 4
@@ -205,6 +208,7 @@ def random_bee(bees):
     )
     if bees:
         return random.choice(bees)
+
 
 ##############
 # Extensions #
@@ -752,23 +756,3 @@ class AssaultPlan(dict):
     def all_bees(self):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
-
-
-###############################
-from ants import *
-beehive, layout = Hive(AssaultPlan()), dry_layout
-dimensions = (1, 9)
-gamestate = GameState(beehive, ant_types(), layout, dimensions)
-thrower = ThrowerAnt()
-ant_place = gamestate.places["tunnel_0_0"]
-ant_place.add_insect(thrower)
-#
-# Testing nearest_bee
-near_bee = Bee(2) # A Bee with 2 health
-far_bee = Bee(3)  # A Bee with 3 health
-hive_bee = Bee(4) # A Bee with 4 health
-hive_place = gamestate.beehive
-hive_place.is_hive # Check if this place is the Hive
-hive_place.add_insect(hive_bee)
-thrower.nearest_bee() is hive_bee # Bees in the Hive can never be attacked
-###############################
