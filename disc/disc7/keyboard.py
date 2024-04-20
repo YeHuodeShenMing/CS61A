@@ -68,9 +68,8 @@ class Keyboard:
     def __init__(self):
         self.typed = []
         self.keys = {
-            c: Button(c, self.typed.append(c)) for c in LOWERCASE_LETTERS
+            c: Button(c, self.typed.append) for c in LOWERCASE_LETTERS
         }  # Try a dictionary comprehension!
-        print(f"DEBUG:", self.keys)
 
     def type(self, word):
         "Press the button for each letter in word."
@@ -78,20 +77,4 @@ class Keyboard:
         "*** YOUR CODE HERE ***"
         for w in word:
             self.keys[w].press()
-            return self
 
-
-Button.caps_lock.pressed = 0  # Reset the caps_lock key
-bored = Keyboard()
-bored.type("hello")
-bored.typed
-# ['h', 'e', 'l', 'l', 'o']
-bored.keys["l"].pressed
-# 2
-
-Button.caps_lock.press()
-bored.type("hello")
-bored.typed
-# ['h', 'e', 'l', 'l', 'o', 'H', 'E', 'L', 'L', 'O']
-bored.keys["l"].pressed
-# 4
