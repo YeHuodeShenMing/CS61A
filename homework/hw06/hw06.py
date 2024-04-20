@@ -65,7 +65,9 @@ class VendingMachine:
             if self.price > self.balance:
                 return f"Please add ${self.price-self.balance} more funds."
             elif self.price < self.balance:
-                change = f"Here is your {self.goods} and ${self.balance-self.price} change."
+                change = (
+                    f"Here is your {self.goods} and ${self.balance-self.price} change."
+                )
                 self.balance = 0
                 self.size -= 1
                 return change
@@ -104,6 +106,7 @@ def store_digits(n):
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
     "*** YOUR CODE HERE ***"
+    ans = Link
 
 
 def deep_map_mut(func, lnk):
