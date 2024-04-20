@@ -161,7 +161,13 @@ def two_list(vals, counts):
     Link(1, Link(1, Link(3, Link(3, Link(2)))))
     """
     "*** YOUR CODE HERE ***"
-
+    result = Link.empty
+    vals = list(reversed(vals))
+    counts = list(reversed(counts))
+    for i in range(len(vals)):
+        for _ in range(counts[i]):
+            result = Link(vals[i],result)
+    return result
 
 class Link:
     """A linked list.
