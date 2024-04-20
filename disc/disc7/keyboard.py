@@ -37,6 +37,13 @@ class Button:
         "Call output on letter (maybe uppercased), then return the button that was pressed."
         self.pressed += 1
         "*** YOUR CODE HERE ***"
+        if self.letter == self.caps_lock:
+            self.caps_lock.pressed += 1
+        if self.caps_lock.pressed % 2 == 0:
+            self.output(self.letter)
+        else:
+            self.output(str(self.letter).upper())
+        return self
 
 
 class Keyboard:
@@ -60,9 +67,31 @@ class Keyboard:
 
     def __init__(self):
         self.typed = []
-        self.keys = ...  # Try a dictionary comprehension!
+        self.keys = {
+            c: Button(c, self.typed.append(c)) for c in LOWERCASE_LETTERS
+        }  # Try a dictionary comprehension!
+        print(f"DEBUG:", self.keys)
 
     def type(self, word):
         "Press the button for each letter in word."
         assert all([w in LOWERCASE_LETTERS for w in word]), "word must be all lowercase"
         "*** YOUR CODE HERE ***"
+        for w in word:
+            self.keys[w].press()
+            return self
+
+
+Button.caps_lock.pressed = 0  # Reset the caps_lock key
+bored = Keyboard()
+bored.type("hello")
+bored.typed
+# ['h', 'e', 'l', 'l', 'o']
+bored.keys["l"].pressed
+# 2
+
+Button.caps_lock.press()
+bored.type("hello")
+bored.typed
+# ['h', 'e', 'l', 'l', 'o', 'H', 'E', 'L', 'L', 'O']
+bored.keys["l"].pressed
+# 4
