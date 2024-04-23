@@ -280,6 +280,7 @@ class FireAnt(Ant):
             else:
                 Insect.reduce_health(bee, amount)
                 # bee.health -= amount
+        ant_place.bees = bee_list
         # END Problem 5
 
 
