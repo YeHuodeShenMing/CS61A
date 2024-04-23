@@ -169,8 +169,8 @@ class ThrowerAnt(Ant):
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
     food_cost = 3
     health = 1
-    # lower_bound =
-    # upper_bound =
+    lower_bound = 0
+    upper_bound = 4
 
     def nearest_bee(self):
         """Return the nearest Bee in a Place (that is not the hive) connected to
@@ -180,7 +180,6 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4
         # return random_bee(self.place.bees)  # REPLACE THIS LINE
-        # self.place = self.place.entrance
         curr_place = self.place
         while not curr_place.is_hive:
             bee_list = random_bee(curr_place.bees)
@@ -224,7 +223,7 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = True  # Change to True to view in the GUI
+    implemented = False  # Change to True to view in the GUI
     # END Problem 4
 
 
@@ -235,7 +234,7 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = True  # Change to True to view in the GUI
+    implemented = False  # Change to True to view in the GUI
     # END Problem 4
 
 
@@ -758,3 +757,4 @@ class AssaultPlan(dict):
     def all_bees(self):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
+
