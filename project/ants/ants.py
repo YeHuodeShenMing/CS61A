@@ -170,7 +170,7 @@ class ThrowerAnt(Ant):
     food_cost = 3
     health = 1
     lower_bound = 0
-    upper_bound = 4
+    upper_bound = 10
 
     def nearest_bee(self):
         """Return the nearest Bee in a Place (that is not the hive) connected to
@@ -181,14 +181,19 @@ class ThrowerAnt(Ant):
         # BEGIN Problem 3 and 4
         # return random_bee(self.place.bees)  # REPLACE THIS LINE
         curr_place = self.place
+        start_index = -1
         while not curr_place.is_hive:
-            bee_list = random_bee(curr_place.bees)
-            if not bee_list:
-                # print("DEBUG:", curr_place.name)
-                curr_place = curr_place.entrance
+            start_index += 1
+            if self.lower_bound <= start_index <= self.upper_bound:
+                bee_list = random_bee(curr_place.bees)
+                if not bee_list:
+                    # print("DEBUG:", curr_place.name)
+                    curr_place = curr_place.entrance
+                else:
+                    # print("DEBUG:", bee_list)
+                    return bee_list
             else:
-                # print("DEBUG:", bee_list)
-                return bee_list
+                curr_place = curr_place.entrance
         return None
         # END Problem 3 and 4
 
@@ -222,8 +227,11 @@ class ShortThrower(ThrowerAnt):
     name = "Short"
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
+    lower_bound = 0
+    upper_bound = 3
+    health = 1
     # BEGIN Problem 4
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem 4
 
 
@@ -233,8 +241,11 @@ class LongThrower(ThrowerAnt):
     name = "Long"
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
+    lower_bound = 5
+    upper_bound = 10
+    health = 1
     # BEGIN Problem 4
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem 4
 
 
@@ -758,3 +769,20 @@ class AssaultPlan(dict):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
 
+
+"""Test Code Partition"""
+from ants import *
+
+beehive, layout = Hive(AssaultPlan()), dry_layout
+dimensions = (1, 9)
+gamestate = GameState(beehive, ant_types(), layout, dimensions)
+thrower = ThrowerAnt()
+ant_place = gamestate.places["tunnel_0_0"]
+ant_place.add_insect(thrower)
+#
+# Test that ThrowerAnt attacks bees at end of tunnel
+near_bee = Bee(2)
+gamestate.places["tunnel_0_8"].add_insect(near_bee)
+thrower.nearest_bee() is near_bee
+# False
+print()
