@@ -170,7 +170,7 @@ class ThrowerAnt(Ant):
     food_cost = 3
     health = 1
     lower_bound = 0
-    upper_bound = float('inf')
+    upper_bound = float("inf")
 
     def nearest_bee(self):
         """Return the nearest Bee in a Place (that is not the hive) connected to
@@ -253,7 +253,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, health=3):
@@ -269,6 +269,17 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        ant_place = self.place
+        Insect.reduce_health(self, amount)
+        bee_list = list(ant_place.bees)
+        # print("DEBUG: beelist is", bee_list)
+        for bee in bee_list:
+            if self.health == 0:
+                Insect.reduce_health(bee, amount + self.damage)
+                # bee.health -= amount + self.damage
+            else:
+                Insect.reduce_health(bee, amount)
+                # bee.health -= amount
         # END Problem 5
 
 
@@ -772,13 +783,16 @@ from ants import *
 beehive, layout = Hive(AssaultPlan()), dry_layout
 dimensions = (1, 9)
 gamestate = GameState(beehive, ant_types(), layout, dimensions)
-thrower = ThrowerAnt()
-ant_place = gamestate.places["tunnel_0_0"]
-ant_place.add_insect(thrower)
-#
-# Test that ThrowerAnt attacks bees at end of tunnel
-near_bee = Bee(2)
-gamestate.places["tunnel_0_8"].add_insect(near_bee)
-thrower.nearest_bee() is near_bee
-# False
-print()
+place = gamestate.places["tunnel_0_4"]
+bee = Bee(10)
+ant = FireAnt(1)
+place.add_insect(bee)
+place.add_insect(ant)
+bee.action(gamestate)  # Attack the FireAnt
+bee.health
+ant.health
+place.ant is None  # The FireAnt should not occupy the place anymore
+
+bee.action(gamestate)
+bee.health  # Bee should not get damaged aga
+bee.place.name  # Bee should not have been blocked
