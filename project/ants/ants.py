@@ -170,7 +170,7 @@ class ThrowerAnt(Ant):
     food_cost = 3
     health = 1
     lower_bound = 0
-    upper_bound = 10
+    upper_bound = float('inf')
 
     def nearest_bee(self):
         """Return the nearest Bee in a Place (that is not the hive) connected to
@@ -227,9 +227,7 @@ class ShortThrower(ThrowerAnt):
     name = "Short"
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
-    lower_bound = 0
     upper_bound = 3
-    health = 1
     # BEGIN Problem 4
     implemented = True  # Change to True to view in the GUI
     # END Problem 4
@@ -242,8 +240,6 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     lower_bound = 5
-    upper_bound = 10
-    health = 1
     # BEGIN Problem 4
     implemented = True  # Change to True to view in the GUI
     # END Problem 4
