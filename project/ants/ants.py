@@ -270,15 +270,15 @@ class FireAnt(Ant):
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
         ant_place = self.place
-        Insect.reduce_health(self, amount)
+        super().reduce_health(amount)
         bee_list = list(ant_place.bees)
         # print("DEBUG: beelist is", bee_list)
         for bee in bee_list:
             if self.health == 0:
-                Insect.reduce_health(bee, amount + self.damage)
+                super().reduce_health(bee, amount + self.damage)
                 # bee.health -= amount + self.damage
             else:
-                Insect.reduce_health(bee, amount)
+                super().reduce_health(bee, amount)
                 # bee.health -= amount
         ant_place.bees = bee_list
         # END Problem 5
