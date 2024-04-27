@@ -269,15 +269,16 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        # Notice the order of "reduce_health" FIRST for all bees then for FireAnt.
         ant_place = self.place
-        bee_list = ant_place.bees
+        bee_list = list(ant_place.bees)
         for bee in bee_list:
-            bee.reduce_health(amount)
-        if (amount>self.health):
-            for bee in bee_list:
-                bee.reduce_health(self.damage)
-        Ant.reduce_health(self,amount)
+            if amount >= self.health:
+                bee.reduce_health((amount + self.damage))
 
+            else:
+                bee.reduce_health(amount)
+        Ant.reduce_health(self, amount)
         # END Problem 5
 
 
