@@ -295,6 +295,7 @@ class WallAnt(Ant):
 
 # BEGIN Problem 7
 # The HungryAnt Class
+
 # END Problem 7
 
 
@@ -785,20 +786,15 @@ class AssaultPlan(dict):
 
 """Test Code Partition"""
 from ants import *
-
 beehive, layout = Hive(AssaultPlan()), dry_layout
 dimensions = (1, 9)
 gamestate = GameState(beehive, ant_types(), layout, dimensions)
-place = gamestate.places["tunnel_0_4"]
-bee = Bee(10)
-ant = FireAnt(1)
-place.add_insect(bee)
-place.add_insect(ant)
-bee.action(gamestate)  # Attack the FireAnt
-bee.health
-ant.health
-place.ant is None  # The FireAnt should not occupy the place anymore
-
-bee.action(gamestate)
-bee.health  # Bee should not get damaged aga
-bee.place.name  # Bee should not have been blocked
+#
+# Testing HungryAnt eats and chews
+hungry = HungryAnt()
+super_bee, wimpy_bee = Bee(1000), Bee(1)
+place = gamestate.places["tunnel_0_0"]
+place.add_insect(hungry)
+place.add_insect(super_bee)
+hungry.action(gamestate)         # super_bee is no match for HungryAnt!
+super_bee.health
