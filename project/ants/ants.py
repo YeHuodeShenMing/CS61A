@@ -289,12 +289,39 @@ class WallAnt(Ant):
     food_cost = 4
     implemented = True
 
-    def __init__(self,health=4):
+    def __init__(self, health=4):
         super().__init__(health)
+
+
 # END Problem 6
+
 
 # BEGIN Problem 7
 # The HungryAnt Class
+class HungryAnt(Ant):
+    food_cost = 4
+    health = 1
+    chewing_turns = 3
+    
+    name = "Hungry"
+    implemented = True
+
+    def __init__(self, health=1):
+        super().__init__(health)
+        self.turns_to_chew = 0
+
+    def action(self, gamestate):
+        # return super().action(gamestate)
+        if self.place.bees == []:
+            pass
+        else:
+            if self.turns_to_chew>0:
+                self.turns_to_chew-=1
+            else:
+                attacked_bee = random_bee(self.place.bees)
+                attacked_bee.reduce_health(attacked_bee.health)
+                self.turns_to_chew = self.chewing_turns
+
 
 # END Problem 7
 
@@ -785,16 +812,3 @@ class AssaultPlan(dict):
 
 
 """Test Code Partition"""
-from ants import *
-beehive, layout = Hive(AssaultPlan()), dry_layout
-dimensions = (1, 9)
-gamestate = GameState(beehive, ant_types(), layout, dimensions)
-#
-# Testing HungryAnt eats and chews
-hungry = HungryAnt()
-super_bee, wimpy_bee = Bee(1000), Bee(1)
-place = gamestate.places["tunnel_0_0"]
-place.add_insect(hungry)
-place.add_insect(super_bee)
-hungry.action(gamestate)         # super_bee is no match for HungryAnt!
-super_bee.health
