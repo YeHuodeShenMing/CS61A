@@ -406,7 +406,6 @@ class TankAnt(ContainerAnt):
     def action(self,gamestate):
         super().action(gamestate)
         FireAnt.reduce_health(self,self.damage)
-        
 # END Problem 9
 
 
