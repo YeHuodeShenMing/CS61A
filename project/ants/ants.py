@@ -105,6 +105,7 @@ class Ant(Insect):
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, health=1):
+        self.doubled = False
         super().__init__(health)
 
     def can_contain(self, other):
@@ -145,6 +146,7 @@ class Ant(Insect):
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
         self.damage = 2 * self.damage
+        self.doubled = True
         # END Problem 12
 
 
@@ -458,14 +460,46 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
-        start_place = self.place
+        ThrowerAnt.action(self,gamestate)
+        start_place = self.place.exit
         # recursively find the end of th tunnel
-        while start_place.exit != None:
+        while start_place is not None:
+            if start_place.ant is None:
+                start_place = start_place.exit
+                continue
+            if start_place.ant.doubled == False:
+                start_place.ant.double()
+            if start_place.ant.is_container and start_place.ant.ant_contained is not None and start_place.ant.ant_contained.doubled == False:
+                start_place.ant.ant_contained.double()
             start_place = start_place.exit
-            start_place.ant.double()
-            if not start_place.ant.ant_contained == None:
-                start_place.ant.ant_contained.action(gamestate)
         # END Problem 12
+
+        """
+        //
+                       _oo0oo_
+                      o8888888o
+                      88" . "88
+                      (| -_- |)
+                      0\  =  /0
+                    ___/`---'\___
+                  .' \\|     |// '.
+                 / \\|||  :  |||// \
+                / _||||| -:- |||||- \
+               |   | \\\  -  /// |   |
+               | \_|  ''\---/''  |_/ |
+               \  .-\__  '-'  ___/-. /
+             ___'. .'  /--.--\  `. .'___
+          ."" '<  `.___\_<|>_/___.' >' "".
+         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+         \  \ `_.   \_ __\ /__ _/   .-` /  /
+     =====`-.____`.___ \_____/___.-`___.-'=====
+                       `=---='
+
+
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+               佛祖保佑         永无BUG
+    """
 
     def reduce_health(self, amount):
         """Reduce health by AMOUNT, and if the QueenAnt has no health
@@ -475,7 +509,8 @@ class QueenAnt(ThrowerAnt):
         "*** YOUR CODE HERE ***"
         self.health -= amount
         if self.health <= 0:
-            ants_lose()
+            return ants_lose()
+        super().reduce_health(amount)
         # END Problem 12
 
 
@@ -864,23 +899,3 @@ class AssaultPlan(dict):
 
 
 """Test Code Partition"""
-import ants, importlib
-importlib.reload(ants)
-beehive = ants.Hive(ants.AssaultPlan())
-dimensions = (2, 9)
-gamestate = ants.GameState(beehive, ants.ant_types(),
-                           ants.dry_layout, dimensions, food=20)
-ants.ants_lose = lambda: None
-# QueenAnt Placement
-queen = ants.QueenAnt()
-front_ant, back_ant = ants.ThrowerAnt(), ants.ThrowerAnt()
-tunnel = [gamestate.places['tunnel_0_{0}'.format(i)]
-        for i in range(9)]
-tunnel[1].add_insect(back_ant)
-tunnel[7].add_insect(front_ant)
-tunnel[4].ant is None
-
-back_ant.damage           # Ants should not have double damage y
-front_ant.damage
-tunnel[4].add_insect(queen)
-queen.action(gamestate)
