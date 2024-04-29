@@ -119,9 +119,15 @@ class Ant(Insect):
         if place.ant is None:
             place.ant = self
         else:
-            # BEGIN Problem 8b
-            assert place.ant is None, "Too many ants in {0}".format(place)
-            # END Problem 8b
+        # BEGIN Problem 8b
+            if self.can_contain(place.ant):
+                self.ant_contained = place.ant
+                place.ant = self
+            elif place.ant.can_contain(self):
+                place.ant.ant_contained = self
+            else:
+                assert place.ant is None, "Too many ants in {0}".format(place)
+        # END Problem 8b
         Insect.add_to(self, place)
 
     def remove_from(self, place):
@@ -187,10 +193,8 @@ class ThrowerAnt(Ant):
             if self.lower_bound <= start_index <= self.upper_bound:
                 bee_list = random_bee(curr_place.bees)
                 if not bee_list:
-                    # print("DEBUG:", curr_place.name)
                     curr_place = curr_place.entrance
                 else:
-                    # print("DEBUG:", bee_list)
                     return bee_list
             else:
                 curr_place = curr_place.entrance
@@ -372,7 +376,6 @@ class ContainerAnt(Ant):
         "*** YOUR CODE HERE ***"
         if self.ant_contained is not None:
             self.ant_contained.action(gamestate)
-            
         # END Problem 8a
 
 
