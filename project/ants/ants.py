@@ -144,6 +144,7 @@ class Ant(Insect):
         """Double this ants's damage, if it has not already been doubled."""
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        self.damage = 2 * self.damage
         # END Problem 12
 
 
@@ -422,7 +423,7 @@ class Water(Place):
         its health to 0."""
         # BEGIN Problem 10
         "*** YOUR CODE HERE ***"
-        Place.add_insect(self,insect)
+        Place.add_insect(self, insect)
         if not insect.is_waterproof:
             insect.reduce_health(insect.health)
         # END Problem 10
@@ -435,6 +436,8 @@ class ScubaThrower(ThrowerAnt):
     name = "Scuba"
     is_waterproof = True
     implemented = True
+
+
 # END Problem 11
 
 
@@ -444,8 +447,9 @@ class QueenAnt(ThrowerAnt):
     name = "Queen"
     food_cost = 7
     # OVERRIDE CLASS ATTRIBUTES HERE
+
     # BEGIN Problem 12
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem 12
 
     def action(self, gamestate):
@@ -454,6 +458,13 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        start_place = self.place
+        # recursively find the end of th tunnel
+        while start_place.exit != None:
+            start_place = start_place.exit
+            start_place.ant.double()
+            if not start_place.ant.ant_contained == None:
+                start_place.ant.ant_contained.action(gamestate)
         # END Problem 12
 
     def reduce_health(self, amount):
@@ -462,6 +473,9 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
+        self.health -= amount
+        if self.health <= 0:
+            ants_lose()
         # END Problem 12
 
 
@@ -850,3 +864,23 @@ class AssaultPlan(dict):
 
 
 """Test Code Partition"""
+import ants, importlib
+importlib.reload(ants)
+beehive = ants.Hive(ants.AssaultPlan())
+dimensions = (2, 9)
+gamestate = ants.GameState(beehive, ants.ant_types(),
+                           ants.dry_layout, dimensions, food=20)
+ants.ants_lose = lambda: None
+# QueenAnt Placement
+queen = ants.QueenAnt()
+front_ant, back_ant = ants.ThrowerAnt(), ants.ThrowerAnt()
+tunnel = [gamestate.places['tunnel_0_{0}'.format(i)]
+        for i in range(9)]
+tunnel[1].add_insect(back_ant)
+tunnel[7].add_insect(front_ant)
+tunnel[4].ant is None
+
+back_ant.damage           # Ants should not have double damage y
+front_ant.damage
+tunnel[4].add_insect(queen)
+queen.action(gamestate)
