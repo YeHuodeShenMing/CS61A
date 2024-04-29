@@ -302,7 +302,7 @@ class HungryAnt(Ant):
     food_cost = 4
     health = 1
     chewing_turns = 3
-    
+
     name = "Hungry"
     implemented = True
 
@@ -315,8 +315,8 @@ class HungryAnt(Ant):
         if self.place.bees == []:
             pass
         else:
-            if self.turns_to_chew>0:
-                self.turns_to_chew-=1
+            if self.turns_to_chew > 0:
+                self.turns_to_chew -= 1
             else:
                 attacked_bee = random_bee(self.place.bees)
                 attacked_bee.reduce_health(attacked_bee.health)
@@ -340,6 +340,9 @@ class ContainerAnt(Ant):
     def can_contain(self, other):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        if self.ant_contained == None and other.is_container == False:
+            return True
+        return False
         # END Problem 8a
 
     def store_ant(self, ant):
