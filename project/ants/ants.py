@@ -394,6 +394,19 @@ class BodyguardAnt(ContainerAnt):
 
 # BEGIN Problem 9
 # The TankAnt class
+class TankAnt(ContainerAnt):
+    name = "Tank"
+    food_cost = 6
+    implemented = True
+    damage = 1
+    
+    def __init__(self, health=2):
+        super().__init__(health)
+        
+    def action(self,gamestate):
+        super().action(gamestate)
+        FireAnt.reduce_health(self,self.damage)
+        
 # END Problem 9
 
 
