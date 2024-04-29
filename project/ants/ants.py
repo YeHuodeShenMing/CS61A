@@ -54,6 +54,7 @@ class Insect:
     next_id = 0  # Every insect gets a unique id number
     damage = 0
     # ADD CLASS ATTRIBUTES HERE
+    is_waterproof = False
 
     def __init__(self, health, place=None):
         """Create an Insect with a health amount and a starting PLACE."""
@@ -119,7 +120,7 @@ class Ant(Insect):
         if place.ant is None:
             place.ant = self
         else:
-        # BEGIN Problem 8b
+            # BEGIN Problem 8b
             if self.can_contain(place.ant):
                 self.ant_contained = place.ant
                 place.ant = self
@@ -387,8 +388,10 @@ class BodyguardAnt(ContainerAnt):
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 8c
     implemented = True  # Change to True to view in the GUI
+
     def __init__(self, health=2):
         super().__init__(health)
+
     # END Problem 8c
 
 
@@ -399,13 +402,15 @@ class TankAnt(ContainerAnt):
     food_cost = 6
     implemented = True
     damage = 1
-    
+
     def __init__(self, health=2):
         super().__init__(health)
-        
-    def action(self,gamestate):
+
+    def action(self, gamestate):
         super().action(gamestate)
-        FireAnt.reduce_health(self,self.damage)
+        FireAnt.reduce_health(self, self.damage)
+
+
 # END Problem 9
 
 
@@ -417,6 +422,9 @@ class Water(Place):
         its health to 0."""
         # BEGIN Problem 10
         "*** YOUR CODE HERE ***"
+        Place.add_insect(self,insect)
+        if not insect.is_waterproof:
+            insect.reduce_health(insect.health)
         # END Problem 10
 
 
