@@ -542,29 +542,36 @@ class LaserAnt(ThrowerAnt):
 
     def insects_in_front(self):
         # BEGIN Problem Optional 2
-        # 1.Judge self's container.
-        # If there's a container, self.place.ant is that container
-        if self.place.ant:
-            self.dist[self.place.ant] = 0
-        # 2. iterate over each Ant in front of self.place
+        # 1.Judge self's container and the bees at the self.place.
+        "If there's a container, self.place.ant is that container"
+        len = 0
+        if self.place.ant is not self:
+            self.dist[self.place.ant] = len
+        # bees at self.place
+        if self.place.bees is not None:
+            for bee in self.place.bees:
+                self.dist[bee] = len
+        # start iteration
         start_place = self.place.entrance
-        len = 1
-        while start_place is not Hive:  # 不确定
+        len += 1
+        # 2. iterate over each Ant in front of self.place
+        while not start_place.is_hive:  # 不确定
             # 2.1 Judge each place for Ant
-            if start_place.ant.is_container == False:
+            if start_place.ant is not None:
                 self.dist[start_place.ant] = len
             if (
-                start_place.ant.is_container
+                start_place.ant is not None
+                and start_place.ant.is_container
                 and start_place.ant.ant_contained is not None
             ):
-                self.dist[start_place.ant] = len
+                # self.dist[start_place.ant] = len
                 self.dist[start_place.ant.ant_contained] = len
             # 2.2 Judge each place for Bee
             if start_place.bees is not None:
                 for bee in start_place.bees:
                     self.dist[bee] = len
             len += 1
-            start_place = self.place.entrance
+            start_place = start_place.entrance
         return self.dist
         # END Problem Optional 2
 
@@ -911,6 +918,7 @@ class AssaultPlan(dict):
 
 """Test Code Partition"""
 from ants import *
+
 beehive, layout = Hive(AssaultPlan()), dry_layout
 dimensions = (1, 9)
 gamestate = GameState(beehive, ant_types(), layout, dimensions)
@@ -927,3 +935,4 @@ gamestate.places["tunnel_0_3"].add_insect(bee2)
 gamestate.places["tunnel_0_4"].add_insect(ant)
 gamestate.places["tunnel_0_5"].add_insect(bee3)
 laser.action(gamestate)
+bee4.health
