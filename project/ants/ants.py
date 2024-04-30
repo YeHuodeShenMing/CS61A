@@ -103,6 +103,7 @@ class Ant(Insect):
     food_cost = 0
     is_container = False
     # ADD CLASS ATTRIBUTES HERE
+    blocks_path = True
 
     def __init__(self, health=1):
         self.doubled = False
@@ -460,7 +461,7 @@ class QueenAnt(ThrowerAnt):
         """
         # BEGIN Problem 12
         "*** YOUR CODE HERE ***"
-        ThrowerAnt.action(self,gamestate)
+        ThrowerAnt.action(self, gamestate)
         start_place = self.place.exit
         # recursively find the end of th tunnel
         while start_place is not None:
@@ -469,37 +470,14 @@ class QueenAnt(ThrowerAnt):
                 continue
             if start_place.ant.doubled == False:
                 start_place.ant.double()
-            if start_place.ant.is_container and start_place.ant.ant_contained is not None and start_place.ant.ant_contained.doubled == False:
+            if (
+                start_place.ant.is_container
+                and start_place.ant.ant_contained is not None
+                and start_place.ant.ant_contained.doubled == False
+            ):
                 start_place.ant.ant_contained.double()
             start_place = start_place.exit
         # END Problem 12
-
-        """
-        //
-                       _oo0oo_
-                      o8888888o
-                      88" . "88
-                      (| -_- |)
-                      0\  =  /0
-                    ___/`---'\___
-                  .' \\|     |// '.
-                 / \\|||  :  |||// \
-                / _||||| -:- |||||- \
-               |   | \\\  -  /// |   |
-               | \_|  ''\---/''  |_/ |
-               \  .-\__  '-'  ___/-. /
-             ___'. .'  /--.--\  `. .'___
-          ."" '<  `.___\_<|>_/___.' >' "".
-         | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-         \  \ `_.   \_ __\ /__ _/   .-` /  /
-     =====`-.____`.___ \_____/___.-`___.-'=====
-                       `=---='
-
-
-     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-               佛祖保佑         永无BUG
-    """
 
     def reduce_health(self, amount):
         """Reduce health by AMOUNT, and if the QueenAnt has no health
@@ -528,13 +506,16 @@ class NinjaAnt(Ant):
     damage = 1
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
+    blocks_path = False
     # BEGIN Problem Optional 1
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 1
 
     def action(self, gamestate):
         # BEGIN Problem Optional 1
         "*** YOUR CODE HERE ***"
+        for bee in list(self.place.bees):
+            bee.reduce_health(self.damage)
         # END Problem Optional 1
 
 
@@ -550,20 +531,45 @@ class LaserAnt(ThrowerAnt):
     food_cost = 10
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem Optional 2
-    implemented = False  # Change to True to view in the GUI
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 2
 
     def __init__(self, health=1):
         super().__init__(health)
         self.insects_shot = 0
+        self.dist = {}
 
     def insects_in_front(self):
         # BEGIN Problem Optional 2
-        return {}
+        # 1.Judge self's container.
+        # If there's a container, self.place.ant is that container
+        if self.place.ant:
+            self.dist[self.place.ant] = 0
+        # 2. iterate over each Ant in front of self.place
+        start_place = self.place.extrance
+        len = 1
+        while start_place is not Hive:  # 不确定
+            # 2.1 Judge each place for Ant
+            if (
+                start_place.ant.is_container
+                and start_place.ant.ant_contained is not None
+            ):
+                self.dist[start_place.ant] = len
+                self.dist[start_place.ant.ant_contained] = len
+            # 2.2 Judge each place for Bee
+            if start_place.bees is not None:
+                for bee in start_place.bees:
+                    self.dist[bee] = len
+            len += 1
+            start_place = self.place.extrance
+        return self.dist
         # END Problem Optional 2
 
     def calculate_damage(self, distance):
         # BEGIN Problem Optional 2
+        # 1. Use distance to calculate
+        
+        # 2. Count the self.insects_shot
         return 0
         # END Problem Optional 2
 
@@ -601,7 +607,8 @@ class Bee(Insect):
         """Return True if this Bee cannot advance to the next Place."""
         # Special handling for NinjaAnt
         # BEGIN Problem Optional 1
-        return self.place.ant is not None
+
+        return self.place.ant is not None and self.place.ant.blocks_path == True
         # END Problem Optional 1
 
     def action(self, gamestate):
