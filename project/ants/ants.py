@@ -529,6 +529,7 @@ class LaserAnt(ThrowerAnt):
 
     name = "Laser"
     food_cost = 10
+    damage = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem Optional 2
     implemented = True  # Change to True to view in the GUI
@@ -546,10 +547,12 @@ class LaserAnt(ThrowerAnt):
         if self.place.ant:
             self.dist[self.place.ant] = 0
         # 2. iterate over each Ant in front of self.place
-        start_place = self.place.extrance
+        start_place = self.place.entrance
         len = 1
         while start_place is not Hive:  # 不确定
             # 2.1 Judge each place for Ant
+            if start_place.ant.is_container == False:
+                self.dist[start_place.ant] = len
             if (
                 start_place.ant.is_container
                 and start_place.ant.ant_contained is not None
@@ -561,16 +564,17 @@ class LaserAnt(ThrowerAnt):
                 for bee in start_place.bees:
                     self.dist[bee] = len
             len += 1
-            start_place = self.place.extrance
+            start_place = self.place.entrance
         return self.dist
         # END Problem Optional 2
 
     def calculate_damage(self, distance):
         # BEGIN Problem Optional 2
         # 1. Use distance to calculate
-        
+        tmp_damage = self.damage - distance * 0.25
         # 2. Count the self.insects_shot
-        return 0
+        tmp_damage -= 0.0625 * self.insects_shot
+        return tmp_damage
         # END Problem Optional 2
 
     def action(self, gamestate):
@@ -906,3 +910,20 @@ class AssaultPlan(dict):
 
 
 """Test Code Partition"""
+from ants import *
+beehive, layout = Hive(AssaultPlan()), dry_layout
+dimensions = (1, 9)
+gamestate = GameState(beehive, ant_types(), layout, dimensions)
+laser = LaserAnt()
+ant = HarvesterAnt(2)
+bee1 = Bee(2)
+bee2 = Bee(2)
+bee3 = Bee(2)
+bee4 = Bee(2)
+gamestate.places["tunnel_0_0"].add_insect(laser)
+gamestate.places["tunnel_0_0"].add_insect(bee4)
+gamestate.places["tunnel_0_3"].add_insect(bee1)
+gamestate.places["tunnel_0_3"].add_insect(bee2)
+gamestate.places["tunnel_0_4"].add_insect(ant)
+gamestate.places["tunnel_0_5"].add_insect(bee3)
+laser.action(gamestate)
