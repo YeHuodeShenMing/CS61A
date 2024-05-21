@@ -115,6 +115,13 @@ def duplicate_link(s, val):
     Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
     """
     "*** YOUR CODE HERE ***"
+    while s.rest != Link.empty:
+        if s.first == val:
+            s.rest = Link(val, s.rest)
+            s = s.rest
+        s = s.rest
+    if s.rest == Link.empty and s.first == val:
+        s.rest = Link(val,Link.empty)
 
 
 class Link:
@@ -158,15 +165,3 @@ class Link:
             string += str(self.first) + " "
             self = self.rest
         return string + str(self.first) + ">"
-
-
-"Test code Partation"
-from lab07 import *
-
-ch = FreeChecking("Jack")
-ch.balance = 20
-ch.withdraw(
-    100
-)  # First one's free. Still counts as a free withdrawal even though it was unsuccessful
-
-ch.withdraw(3)  # Second withdrawal is also free
