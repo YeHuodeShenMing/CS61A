@@ -1,30 +1,32 @@
-# def cumulative_mul(t):
-#     """Mutates t so that each node's label becomes the product of its own
-#     label and all labels in the corresponding subtree rooted at t.
+def cumulative_mul(t):
+    """Mutates t so that each node's label becomes the product of its own
+    label and all labels in the corresponding subtree rooted at t.
 
-#     >>> t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])
-#     >>> cumulative_mul(t)
-#     >>> t
-#     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
-#     >>> otherTree = Tree(2, [Tree(1, [Tree(3), Tree(4), Tree(5)]), Tree(6, [Tree(7)])])
-#     >>> cumulative_mul(otherTree)
-#     >>> otherTree
-#     Tree(5040, [Tree(60, [Tree(3), Tree(4), Tree(5)]), Tree(42, [Tree(7)])])
-#     """
-#     "*** YOUR CODE HERE ***"
-#     def recusive(t):
-#         # 我想遍历从树根到叶子节点
-#         if t.is_leaf():
-#             return t.label
-#         else:
-#             product = t.label
-#             # 先保存积节点的初始值
-#             for br in t.branches:
-#                 product *= recusive(br)
+    >>> t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])
+    >>> cumulative_mul(t)
+    >>> t
+    Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
+    >>> otherTree = Tree(2, [Tree(1, [Tree(3), Tree(4), Tree(5)]), Tree(6, [Tree(7)])])
+    >>> cumulative_mul(otherTree)
+    >>> otherTree
+    Tree(5040, [Tree(60, [Tree(3), Tree(4), Tree(5)]), Tree(42, [Tree(7)])])
+    """
+    "*** YOUR CODE HERE ***"
 
-#             t.label = product
-#             return t.label
-#     recusive(t)
+    def recusive(t):
+        # 我想遍历从树根到叶子节点
+        if t.is_leaf():
+            return t.label
+        else:
+            product = t.label
+            # 先保存积节点的初始值
+            for br in t.branches:
+                product *= recusive(br)
+
+            t.label = product
+            return t.label
+
+    recusive(t)
 
 
 class Tree:
@@ -94,34 +96,48 @@ def prune_small(t, n):
     #   递归（br）
 
 
-# def delete(t, x):
-#     """Remove all nodes labeled x below the root within Tree t. When a non-leaf
-#     node is deleted, the deleted node's children become children of its parent.
+def delete(t, x):
+    """Remove all nodes labeled x below the root within Tree t. When a non-leaf
+    node is deleted, the deleted node's children become children of its parent.
 
-#     The root node will never be removed.
+    The root node will never be removed.
 
-#     >>> t = Tree(3, [Tree(2, [Tree(2), Tree(2)]), Tree(2), Tree(2, [Tree(2, [Tree(2), Tree(2)])])])
-#     >>> delete(t, 2)
-#     >>> t
-#     Tree(3)
-#     >>> t = Tree(1, [Tree(2, [Tree(4, [Tree(2)]), Tree(5)]), Tree(3, [Tree(6), Tree(2)]), Tree(4)])
-#     >>> delete(t, 2)
-#     >>> t
-#     Tree(1, [Tree(4), Tree(5), Tree(3, [Tree(6)]), Tree(4)])
-#     >>> t = Tree(1, [Tree(2, [Tree(4), Tree(5)]), Tree(3, [Tree(6), Tree(2)]), Tree(2, [Tree(6),  Tree(2), Tree(7), Tree(8)]), Tree(4)])
-#     >>> delete(t, 2)
-#     >>> t
-#     Tree(1, [Tree(4), Tree(5), Tree(3, [Tree(6)]), Tree(6), Tree(7), Tree(8), Tree(4)])
-#     """
-#     new_branches = []
-#     for _________ in ________________:
-#         _______________________
-#         if b.label == x:
-#             __________________________________
-#         else:
-#             __________________________________
-#     t.branches = ___________________
+    >>> t = Tree(3, [Tree(2, [Tree(2), Tree(2)]), Tree(2), Tree(2, [Tree(2, [Tree(2), Tree(2)])])])
+    >>> delete(t, 2)
+    >>> t
+    Tree(3)
+    >>> t = Tree(1, [Tree(2, [Tree(4, [Tree(2)]), Tree(5)]), Tree(3, [Tree(6), Tree(2)]), Tree(4)])
+    >>> delete(t, 2)
+    >>> t
+    Tree(1, [Tree(4), Tree(5), Tree(3, [Tree(6)]), Tree(4)])
+    >>> t = Tree(1, [Tree(2, [Tree(4), Tree(5)]), Tree(3, [Tree(6), Tree(2)]), Tree(2, [Tree(6),  Tree(2), Tree(7), Tree(8)]), Tree(4)])
+    >>> delete(t, 2)
+    >>> t
+    Tree(1, [Tree(4), Tree(5), Tree(3, [Tree(6)]), Tree(6), Tree(7), Tree(8), Tree(4)])
+    """
+    new_branches = []
+    for b in t.branches:
+        delete(b, x)
+        if b.label == x:
+            new_branches = b.branches
+        else:
+            new_branches = b
+    t.branches = new_branches
 
+
+t = Tree(
+    1, [Tree(2, [Tree(4, [Tree(2)]), Tree(5)]), Tree(3, [Tree(6), Tree(2)]), Tree(4)]
+)
+delete(t, 2)
+
+# new_branches = []
+# for _________ in ________________:
+#     _______________________
+#     if b.label == x:
+#         __________________________________
+#     else:
+#         __________________________________
+# t.branches = ___________________
 
 # class Tree:
 #     """
