@@ -1,3 +1,32 @@
+# def cumulative_mul(t):
+#     """Mutates t so that each node's label becomes the product of its own
+#     label and all labels in the corresponding subtree rooted at t.
+
+#     >>> t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])
+#     >>> cumulative_mul(t)
+#     >>> t
+#     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
+#     >>> otherTree = Tree(2, [Tree(1, [Tree(3), Tree(4), Tree(5)]), Tree(6, [Tree(7)])])
+#     >>> cumulative_mul(otherTree)
+#     >>> otherTree
+#     Tree(5040, [Tree(60, [Tree(3), Tree(4), Tree(5)]), Tree(42, [Tree(7)])])
+#     """
+#     "*** YOUR CODE HERE ***"
+#     def recusive(t):
+#         # 我想遍历从树根到叶子节点
+#         if t.is_leaf():
+#             return t.label
+#         else:
+#             product = t.label
+#             # 先保存积节点的初始值
+#             for br in t.branches:
+#                 product *= recusive(br)
+
+#             t.label = product
+#             return t.label
+#     recusive(t)
+
+
 class Tree:
     """
     >>> t = Tree(3, [Tree(2, [Tree(5)]), Tree(4)])
@@ -35,60 +64,34 @@ class Tree:
         return print_tree(self).rstrip()
 
 
-def cumulative_mul(t):
-    """Mutates t so that each node's label becomes the product of its own
-    label and all labels in the corresponding subtree rooted at t.
+def prune_small(t, n):
+    """Prune the tree mutatively, keeping only the n branches
+    of each node with the smallest labels.
 
-    >>> t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])
-    >>> cumulative_mul(t)
-    >>> t
-    Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
-    >>> otherTree = Tree(2, [Tree(1, [Tree(3), Tree(4), Tree(5)]), Tree(6, [Tree(7)])])
-    >>> cumulative_mul(otherTree)
-    >>> otherTree
-    Tree(5040, [Tree(60, [Tree(3), Tree(4), Tree(5)]), Tree(42, [Tree(7)])])
+    >>> t1 = Tree(6)
+    >>> prune_small(t1, 2)
+    >>> t1
+    Tree(6)
+    >>> t2 = Tree(6, [Tree(3), Tree(4)])
+    >>> prune_small(t2, 1)
+    >>> t2
+    Tree(6, [Tree(3)])
+    >>> t3 = Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2), Tree(3)]), Tree(5, [Tree(3), Tree(4)])])
+    >>> prune_small(t3, 2)
+    >>> t3
+    Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2)])])
     """
-    "*** YOUR CODE HERE ***"
-    def recusive(t):
-        # 我想遍历从树根到叶子节点
-        if t.is_leaf():
-            return t.label
-        else:
-            product = t.label
-            # 先保存积节点的初始值
-            for br in t.branches:
-                product *= recusive(br)
+    while len(t.branches) > n:
+        largest = max([b.label for b in t.branches], key=lambda x: x)
+        t.branches = [b for b in t.branches if b.label != largest]
 
-            t.label = product
-            return t.label
-    recusive(t)
-
-
-t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])
-cumulative_mul(t)
-
-# def prune_small(t, n):
-#     """Prune the tree mutatively, keeping only the n branches
-#     of each node with the smallest labels.
-
-#     >>> t1 = Tree(6)
-#     >>> prune_small(t1, 2)
-#     >>> t1
-#     Tree(6)
-#     >>> t2 = Tree(6, [Tree(3), Tree(4)])
-#     >>> prune_small(t2, 1)
-#     >>> t2
-#     Tree(6, [Tree(3)])
-#     >>> t3 = Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2), Tree(3)]), Tree(5, [Tree(3), Tree(4)])])
-#     >>> prune_small(t3, 2)
-#     >>> t3
-#     Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2)])])
-#     """
-#     while ___________________________:
-#         largest = max(_______________, key=____________________)
-#         _________________________
-#     for __ in _____________:
-#         ___________________
+    for br in t.branches:
+        prune_small(br, n)
+    # while 列表长度>n:
+    #   求largest
+    #   列表删去largest
+    # for br in t.分支：
+    #   递归（br）
 
 
 # def delete(t, x):
