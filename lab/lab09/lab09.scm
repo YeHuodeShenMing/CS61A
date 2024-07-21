@@ -10,9 +10,23 @@
   )
 )
 
-(define (make-adder num) 'YOUR-CODE-HERE)
+; (define (make-adder num) 
+;   (define (adder inc) (+ num inc))
+;   adder
+; )
 
-(define (composed f g) 'YOUR-CODE-HERE)
+(define (make-adder num)
+  (lambda (inc) (+ num inc))
+)
+
+
+(define (composed f g) 
+  (
+    lambda (x) (f (g x))
+  )
+)
+
+
 
 (define (repeat f n) 'YOUR-CODE-HERE)
 
