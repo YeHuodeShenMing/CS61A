@@ -27,8 +27,14 @@
 )
 
 
-
-(define (repeat f n) 'YOUR-CODE-HERE)
+(define (repeat f n)
+  (cond 
+    ((= n 1) f)
+    (else 
+      (composed f (repeat f (- n 1)))
+    )
+  )
+)
 
 (define (max a b)
   (if (> a b)
@@ -40,4 +46,16 @@
       b
       a))
 
-(define (gcd a b) 'YOUR-CODE-HERE)
+(define (gcd a b)
+  (define small (min a b))
+  (define big (max a b))
+  (define big (if (> (modulo big small) 0)
+                  (modulo big small)
+                  big))
+  (define (loop i)
+    (if (> i 1)
+        (if (and (= (modulo big i) 0) (= (modulo small i) 0))
+            i
+            (loop (- i 1)))
+        1))
+  (loop small))
