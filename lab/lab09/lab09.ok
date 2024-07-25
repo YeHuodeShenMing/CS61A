@@ -1,6 +1,6 @@
 {
     "name": "Lab 9",
-    "endpoint": "ucb/cs61a/sp24/lab09",
+    "endpoint": "cal/cs61a/su24/lab09",
     "src": [
         "lab09.scm"
     ],
@@ -12,7 +12,9 @@
         "make_adder",
         "composed",
         "repeat",
-        "gcd"
+        "gcd",
+        "list_duplicate",
+        "deep-map"
     ],
     "protocols": [
         "restore",
