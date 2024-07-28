@@ -52,11 +52,11 @@ def scheme_apply(procedure, args, env):
             arg_list = []
         else:
             arg_list = [args.first]
-            print(f"DEBUG:{arg_list}")
+            # print(f"DEBUG:{arg_list}")
             while args.rest != nil:
                 args = args.rest
                 arg_list.append(args.first)
-                print(f"DEBUG:{arg_list}")
+                # print(f"DEBUG:{arg_list}")
         if procedure.need_env:
             arg_list.append(env)
         # END PROBLEM 2
