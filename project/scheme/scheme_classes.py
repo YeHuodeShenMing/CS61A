@@ -57,6 +57,14 @@ class Frame:
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 8
         "*** YOUR CODE HERE ***"
+        child_frame = Frame(parent=self)
+        while formals != nil and vals != nil:
+            formal_item = formals.first
+            val_item = vals.first
+            child_frame.define(formal_item, val_item)
+            formals = formals.rest
+            vals = vals.rest
+        return child_frame
         # END PROBLEM 8
 
 ##############
@@ -92,6 +100,7 @@ class LambdaProcedure(Procedure):
         self.formals = formals
         self.body = body
         self.env = env
+
 
     def __str__(self):
         return str(Pair('lambda', Pair(self.formals, self.body)))

@@ -46,6 +46,18 @@ def do_define_form(expressions, env):
         # defining a named procedure e.g. (define (f x y) (+ x y))
         # BEGIN PROBLEM 10
         "*** YOUR CODE HERE ***"
+        function_name = signature.first
+        expr = expressions.rest
+        formals = signature.rest
+        # print(f"DEBUG: function_name: {function_name}")
+        # print(f"DEBUG: 形参: {formals}")
+        # print(f"DEBUG: 表达式: {expr}")
+        # print(f"DEBUG: lambda表达式: {expressions}")
+        combination = LambdaProcedure(formals, expr, env)
+        validate_formals(formals)
+        # combination = do_lambda_form(expressions, env)
+        env.define(function_name, combination)
+        return function_name
         # END PROBLEM 10
     else:
         bad_signature = signature.first if isinstance(signature, Pair) else signature
@@ -61,7 +73,8 @@ def do_quote_form(expressions, env):
     validate_form(expressions, 1, 1)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    
+    signature = expressions.first
+    return signature
     # END PROBLEM 5
 
 def do_begin_form(expressions, env):
@@ -88,6 +101,8 @@ def do_lambda_form(expressions, env):
     validate_formals(formals)
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    body = expressions.rest
+    return LambdaProcedure(formals, body, env)
     # END PROBLEM 7
 
 def do_if_form(expressions, env):
@@ -225,6 +240,11 @@ def do_mu_form(expressions, env):
     validate_formals(formals)
     # BEGIN PROBLEM 11
     "*** YOUR CODE HERE ***"
+    body = expressions.rest
+    # print(f"DEBUG: body : {body}")
+    mu = MuProcedure(formals, body)
+    # print(f"DEBUG: mu : {mu}")
+    return MuProcedure(formals, body)
     # END PROBLEM 11
 
 
