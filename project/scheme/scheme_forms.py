@@ -240,6 +240,13 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
+    validate_form(bindings, 1)
+    print(f"DEBUG: bindings.first : {bindings.first}")
+    validate_formals(bindings.first.first)
+    names = Pair(bindings.first.first, nil)
+    vals = Pair(bindings.first.rest.first, nil)
+    print(f"DEBUG: names : {names}")
+    print(f"DEBUG: vals : {vals}")
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
 
