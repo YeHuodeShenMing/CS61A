@@ -45,7 +45,7 @@ def do_define_form(expressions, env):
         second = expressions.rest.first
         value = scheme_eval(second, env)
         env.define(signature, value)
-        print(f"DEBUG: 变量：{scheme_eval(signature,env)}")
+        # print(f"DEBUG: 变量：{scheme_eval(signature,env)}")
         return signature
         # END PROBLEM 4
     elif isinstance(signature, Pair) and scheme_symbolp(signature.first):
@@ -210,8 +210,9 @@ def do_cond_form(expressions, env):
             # BEGIN PROBLEM 13
             "*** YOUR CODE HERE ***"
             if clause.rest == nil:
-                return True
+                return test
             else:
+                # print(f"DEBUG: true表达式：{clause.rest}")
                 return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest

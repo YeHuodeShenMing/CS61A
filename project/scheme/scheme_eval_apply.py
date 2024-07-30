@@ -77,8 +77,8 @@ def scheme_apply(procedure, args, env):
         而不是直接的env (这是整个大的句子)
         '''
         child_frame = procedure.env.make_child_frame(procedure.formals, args)
-        print(f"DEBUG: lambda-Procedure : {procedure}")
-        print(f"DEBUG: lambda-Procedure : {procedure.body}")
+        # print(f"DEBUG: lambda-Procedure : {procedure}")
+        # print(f"DEBUG: lambda-Procedure : {procedure.body}")
         return eval_all(procedure.body, child_frame)
         # END PROBLEM 9
 
