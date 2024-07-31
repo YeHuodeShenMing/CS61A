@@ -151,10 +151,7 @@ def do_and_form(expressions, env):
         return True
     else:
         flag = scheme_eval(expressions.first, env)
-        if (
-            is_scheme_false(flag)
-            or expressions.rest == nil
-        ):
+        if is_scheme_false(flag) or expressions.rest == nil:
             return flag
         else:
             return do_and_form(expressions.rest, env)
@@ -181,10 +178,7 @@ def do_or_form(expressions, env):
         return False
     else:
         flag = scheme_eval(expressions.first, env)
-        if (
-            is_scheme_true(flag)
-            or expressions.rest == nil
-        ):
+        if is_scheme_true(flag) or expressions.rest == nil:
             return flag
         else:
             return do_or_form(expressions.rest, env)
@@ -240,13 +234,18 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
-    validate_form(bindings, 1)
-    print(f"DEBUG: bindings.first : {bindings.first}")
-    validate_formals(bindings.first.first)
-    names = Pair(bindings.first.first, nil)
-    vals = Pair(bindings.first.rest.first, nil)
-    print(f"DEBUG: names : {names}")
-    print(f"DEBUG: vals : {vals}")
+    # print(f"DEBUG: bindings.first : {bindings.first}")
+    while bindings is not nil:
+
+        validate_form(bindings.first, 2, 2)
+        name = bindings.first.first
+        val = bindings.first.rest.first
+
+        val = scheme_eval(val, env)
+        names = Pair(name, names)
+        vals = Pair(val, vals)
+        validate_formals(names)
+        bindings = bindings.rest
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
 

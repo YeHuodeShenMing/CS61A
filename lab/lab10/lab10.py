@@ -13,21 +13,22 @@ def calc_eval(exp):
     >>> calc_eval(Pair("+", Pair(1, Pair(2, nil))))
     3
     """
+
     if isinstance(exp, Pair):
-        operator = ____________ # UPDATE THIS FOR Q2
-        operands = ____________ # UPDATE THIS FOR Q2
+        operator = exp.first # UPDATE THIS FOR Q2
+        operands = exp.rest # UPDATE THIS FOR Q2
         if operator == 'and': # and expressions
             return eval_and(operands)
         elif operator == 'define': # define expressions
             return eval_define(operands)
         else: # Call expressions
-            return calc_apply(___________, ___________) # UPDATE THIS FOR Q2
+            return calc_apply(calc_eval(operator), operands) # UPDATE THIS FOR Q2
     elif exp in OPERATORS:   # Looking up procedures
         return OPERATORS[exp]
     elif isinstance(exp, int) or isinstance(exp, bool):   # Numbers and booleans
         return exp
-    elif _________________: # CHANGE THIS CONDITION FOR Q4
-        return _________________ # UPDATE THIS FOR Q4
+    elif exp in bindings: # CHANGE THIS CONDITION FOR Q4
+        return calc_eval(bindings[exp].first) # UPDATE THIS FOR Q4
 
 def calc_apply(op, args):
     return op(args)
@@ -52,6 +53,12 @@ def floor_div(args):
     20
     """
     "*** YOUR CODE HERE ***"
+    dividend = calc_eval(args.first)
+    while args is not nil and args.rest is not nil:
+        dividor = calc_eval(args.rest.first)
+        dividend = dividend // dividor
+        args = args.rest
+    return dividend
 
 scheme_t = True   # Scheme's #t
 scheme_f = False  # Scheme's #f
@@ -74,6 +81,15 @@ def eval_and(expressions):
     True
     """
     "*** YOUR CODE HERE ***"
+    if expressions is nil:
+        return True
+    while expressions.rest is not nil:
+        test = calc_eval(expressions.first)
+        # print(f"DEBUG : test : {test}")/
+        if test is scheme_f:
+            return test
+        expressions = expressions.rest
+    return calc_eval(expressions.first)
 
 bindings = {}
 
@@ -93,6 +109,13 @@ def eval_define(expressions):
     2
     """
     "*** YOUR CODE HERE ***"
+    symbol = expressions.first
+    value = expressions.rest
+    print(f"DEBUG : symbol : {symbol}")
+    print(f"DEBUG : value : {value}")
+    bindings[symbol] = value
+    print(f"DEBUG : bindings : {bindings}")
+    return symbol
 
 OPERATORS = { "//": floor_div, "+": addition, "-": subtraction, "*": multiplication, "/": division }
 
@@ -162,4 +185,3 @@ class nil:
         return self
 
 nil = nil() # Assignment hides the nil class; there is only one instance
-
